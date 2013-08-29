@@ -1,75 +1,65 @@
-$(document).ready(function() { 
-	
-	// Minimze toolbar
-	$('#lp-minimize').click(function() {
-		toolbarCollapse();
-		
-	});
-	
-	// Show queries
-	$('#lp-queries').click(function() {
-		toolbarExpand();
+$(document).ready(function() {
+  // Hide if the toolbar is clicked from anywhere outside of the links container.
+	$('#li3-perf-toolbar').click(function(e) {
+    if ($(e.target).closest('#li3-perf-toolbar-links').length > 0 ||
+      $(e.target).closest('#li3-perf-content').length > 0
+    ) {
+      return false;
+    }
+
+    toolbarCollapse();
+  });
+
+	// Show
+  $('#li3-perf-toolbar-links a.li3-perf-link').click(function(e) {
+    var oToolbar = $('#li3-perf-toolbar');
+
+    if (typeof oToolbar.data('visible') !== 'undefined' &&
+      oToolbar.data('visible') === this.id
+    ) {
+      toolbarCollapse();
+      return false;
+    }
+
+		toolbarExpand(e.currentTarget.id);
+
+    var mappings = {
+      'lp-queries': '#li3-perf-queries',
+      'lp-perf-graph': '#li3-perf-graph',
+      'lp-timing': '#li3-perf-timing',
+      'lp-variables': '#li3-perf-vars',
+      'lp-log': '#li3-perf-log'
+    };
+
 		$('#li3-perf-content div').hide();
-		$('#li3-perf-queries').show();
-		$('#li3-perf-queries div').show();
+
+    $(mappings[this.id] + ', ' + mappings[this.id] + ' div').show();
+
+    if (this.id === 'lp-log') {
+      $.get('/li3_perf/tail', function(data) {
+        $('#error-log').html(data);
+      });
+    }
 	});
-	
-	// Show performance graph
-	$('#lp-perf-graph').click(function() {
-		toolbarExpand();
-		$('#li3-perf-content div').hide();
-		$('#li3-perf-graph').show();
-		$('#li3-perf-graph div').show();
-	});
-	
-	// Show timers
-	$('#lp-timing').click(function() {
-		toolbarExpand();
-		$('#li3-perf-content div').hide();
-		$('#li3-perf-timing').show();
-		$('#li3-perf-timing div').show();
-	});
-	
-	// Show variables
-	$('#lp-variables').click(function() {
-		toolbarExpand();
-		$('#li3-perf-content div').hide();
-		$('#li3-perf-vars').show();
-		$('#li3-perf-vars div').show();
-	});
-	
-	// Show logs
-	$('#lp-log').click(function() {
-		toolbarExpand();
-		$('#li3-perf-content div').hide();
-		$('#li3-perf-log').show();
-		$('#li3-perf-log div').show();
-		
-		$.get('/li3_perf/tail', function(data){
-			$('#error-log').html(data);
-		});
-	});
-	
+
 	$.get('/li3_perf/tail', function(data){
 		$('#error-log').html(data);
 	});
-	
+
 });
 
-function toolbarExpand() {
+function toolbarExpand(elemId) {
 	$('#li3-perf-toolbar').css({
 		'overflow': 'auto'
-	});
-	$('#li3-perf-toolbar').animate({
+	}).animate({
 		height: '100%'
-	});
+	}).data('visible', elemId);
 }
 
 function toolbarCollapse() {
 	$('#li3-perf-toolbar').css({
 		'overflow': 'hidden'
-	});
-	$('#li3-perf-toolbar').animate({
+	}).animate({
 		height: '24px'
-	});
+  }).data('visible', false);
 }

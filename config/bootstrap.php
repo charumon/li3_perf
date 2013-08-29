@@ -1,4 +1,5 @@
 <?php
+
 use li3_perf\extensions\util\Data;
 
 // Start the timer, note: li3_perf should be added before all other libraries (and after lithium).
@@ -15,4 +16,3 @@ require __DIR__ . '/bootstrap/variables.php';
 require __DIR__ . '/bootstrap/dispatcher.php';
 
 // require LITHIUM_APP_PATH . '/libraries/li3_perf/extensions/util/Dump.php';
-?>

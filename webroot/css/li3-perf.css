@@ -1,4 +1,4 @@
-/** 
+/**
  * Color Reference
  * Green: #4ddb49
  * Blue: #00a5f5
@@ -9,7 +9,7 @@ html {
 	padding-top: 24px !important;
 }
 #li3-perf-toolbar {
-	background: url('../img/97bg.png') repeat;
+	background: url(../img/97bg.png) repeat;
 	color: #fff;
 	width: 100%;
 	height: 24px;
@@ -21,6 +21,7 @@ html {
 	margin: 0;
 	overflow: hidden;
 	font-family: 'Arial', sans-serif;
+  font-size: 12px;
 }
 
 #li3-perf-toolbar-content-wrapper {
